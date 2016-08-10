@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+   <head>
+      <meta charset="utf-8">
+      <title>vuejs 从入门到精通</title>
+      <style>
+      body, div, span, object, iframe, h2, h2, h3, h4, h5, h6, p, blockquote, a, code, em, img, q, small, strong, dd, dl, dt, li, ol, ul, fieldset, form, label, table, tbody, tr, th, td, input {
+         margin: 0;
+         padding: 0;
+         border: 0
+      }
+      body {
+         font-size: 32px;
+         font-size: .32rem;
+         max-width: 1080px;
+         margin: 30px auto;
+         padding-left: 30px;
+         -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+      }
+      a, a:active, a:hover, a:focus, a:visited {
+         text-decoration: none
+      }
+      a, img {
+         -webkit-touch-callout: none
+      }
+      ol, ul, li {
+         list-style: none
+      }
+      textarea, input[type="password"], input[type="text"] {
+         resize: none;
+         outline: 0;
+         -webkit-appearance: none;
+         white-space: pre-wrap;
+         word-wrap: break-word;
+         background: #fff
+      }
+      .clearfix:after {
+         display: block;
+         clear: both;
+         content: "";
+         visibility: hidden;
+         height: 0
+      }
+      </style>
+      <style>
+         body{
+            font-size: 20px;
+         }
+         .main{
+         }
+         .context{
+            width: 170px;
+            position: fixed;
+            top: 0;
+            right: 0;
+         }
+         .example-title{
+            font-size: 1.5em;
+            line-height: 1.5;
+         }
+         .example-div{
+            padding-left: 10px;
+            line-height: 1.5;
+            border: 1px solid #ccc;
+            margin-bottom: 30px;
+            width: 650px;
+         }
+         p{
+            margin: 0;
+         }
+         input[type="text"]{
+            line-height: 24px;
+            outline: #ccc solid 1px;
+         }
+         a{
+            color: #333;
+         }
+         ul, li{
+            list-style: disc;
+         }
+         li{
+            margin-left: 30px;
+         }
+         .bold{
+            font-weight: 700;
+         }
+      </style>
+      <script src="./vue.js"></script>
+    </head>
+   <body>
+   <div class="main">
+      <div id="example-1">
+         <h2 class="example-title">数据展示</h2>
+         <div class="example-div">
+            {{ message }}
+         </div>
+         <script>
+            new Vue({
+               el: '#example-1',
+               data: {
+                  message: 'Hello World'
+               }
+            });
+         </script>
+      </div>
+      <div id="example-2">
+         <h2 class="example-title">双向绑定</h2>
+         <div class="example-div">
+            <input type="text" v-model='message'>
+            <p>{{ message }}</p>
+         </div>
+         <script>
+            new Vue({
+               el: '#example-2',
+               data: {
+                  message: '',
+               }
+            });
+         </script>
+      </div>
+      <div id="example-3">
+         <h2 class="example-title">计算属性</h2>
+         <div class="example-div">
+            <input type="text" v-model='message'>
+            <p>{{ message2 }}</p>
+         </div>
+         <script>
+            new Vue({
+               el: '#example-3',
+               data: {
+                  message: 'Hello World'
+               },
+               computed: {
+                  message2: function(){
+                     return this.message + '2';
+                  }
+               }
+            });
+         </script>
+      </div>
+      <div id="example-4">
+         <h2 class="example-title">列表渲染</h2>
+         <div class="example-div">
+            <p v-for="message in messages">{{ message.text }}</p>
+            <p v-for="msg in msgObj">{{$key}}: {{msg}}</p>
+         </div>
+         <script>
+            new Vue({
+               el: '#example-4',
+               data: {
+                  messages: [{ text: 'Hello World' }, { text: 'Hello World2' }, { text: 'Hello World3' }],
+                  msgObj:{
+                     1: 'Hello World4',
+                     2: 'Hello World5'
+                  }
+               }
+            });
+         </script>
+      </div>
+      <div id="example-5">
+         <h2 class="example-title">处理用户交互-1</h2>
+         <div class="example-div">
+            <p v-for="message in messages">{{ message }}</p>
+            <button v-on:click="resetMessage">reset</button>
+            <button v-on:click="deleteMessage">delete</button>
+         </div>
+         <script>
+            new Vue({
+               el: '#example-5',
+               data: {
+                  messages: ['Hello World', 'Hello World2', 'Hello World3']
+               },
+               methods: {
+                  resetMessage: function(){
+                     this.messages = ['Hello World', 'Hello World2', 'Hello World3'];
+                  },
+                  deleteMessage: function(){
+                     if(this.messages.length > 0){
+                        this.messages.pop();
+                     }
+                  }
+               }
+            });
+         </script>
+      </div>
+      <div id="example-6">
+         <h2 class="example-title">处理用户交互-2-事件处理函数为内联函数</h2>
+         <div class="example-div">
+            <p v-for="message in messages">{{ message }}</p>
+            <button v-on:click="resetMessage(['1','2','3'])">reset</button>
+         </div>
+         <script>
+            new Vue({
+               el: '#example-6',
+               data: {
+                  messages: ['Hello World', 'Hello World2', 'Hello World3']
+               },
+               methods: {
+                  resetMessage: function(data){
+                     this.messages = data;
+                  }
+               }
+            });
+         </script>
+      </div>
+      <div id="example-7">
+         <h2 class="example-title">生命周期</h2>
+         <div class="example-div">
+            <p v-for="message in messages">{{ message }}</p>
+         </div>
+         <script>
+            new Vue({
+               el: '#example-7',
+               data: {
+                  messages: []
+               },
+               created: function(){
+                  this.messages.push('created, 请求ajax数据');
+               },
+               compiled: function(){
+                  this.messages.push('compiled');
+               },
+               ready: function(){
+                  this.messages.push('ready, 此时已经插入DOM');
+               }
+            });
+         </script>
+      </div>
+      <div id="example-8">
+         <h2 class="example-title">条件渲染</h2>
+         <div class="example-div">
+            <div v-show="ifShow">我是要显示的东西</div>
+            <button @click="changeShow">
+               <span v-if="ifShow">关闭</span>
+               <span v-else>显示</span>
+            </button>
+         </div>
+         <script>
+            new Vue({
+               el: '#example-8',
+               data: {
+                  ifShow: true
+               },
+               methods: {
+                  changeShow: function(){
+                     this.ifShow = !this.ifShow;
+                  }
+               }
+            });
+         </script>
+      </div>
+      <div id="example-9">
+         <h2 class="example-title">动态class</h2>
+         <div class="example-div">
+            <div v-bind:class="{red: ifShow }">我是要显示的东西</div>
+            <button @click="changeShow">
+               {{ ifShow ? '关闭' : '显示' }}
+            </button>
+         </div>
+         <style>
+         .red{ color: red; }
+         </style>
+         <script>
+            new Vue({
+               el: '#example-9',
+               data: {
+                  ifShow: true
+               },
+               methods: {
+                  changeShow: function(){
+                     this.ifShow = !this.ifShow;
+                  }
+               }
+            });
+         </script>
+      </div>
+      <div id="example-10">
+         <h2 class="example-title">过渡</h2>
+         <div class="example-div">
+            <div v-show="ifShow" transition="zoomout">过渡可以配合v-if或者v-show使用</div>
+            <button @click="changeShow">
+               {{ ifShow ? '关闭' : '显示' }}
+            </button>
+         </div>
+         <style>
+            #example-10 .zoomout-transition{
+               transition: transform 1s linear;
+            }
+             #example-10 .zoomout-enter, .zoomout-leave{
+               transform: scale(0.1) translateZ(0);
+            }
+         </style>
+         <script>
+            new Vue({
+               el: '#example-10',
+               data: {
+                  ifShow: false
+               },
+               methods: {
+                  changeShow: function(){
+                     this.ifShow = !this.ifShow;
+                  }
+               }
+            });
+         </script>
+      </div>
+      <div id="example-11">
+         <h2 class="example-title">动画</h2>
+         <div class="example-div">
+            <div v-show="ifShow" transition="zoomout">动画可以配合v-if或者v-show使用</div>
+            <button @click="changeShow">
+               {{ ifShow ? '关闭' : '显示' }}
+            </button>
+         </div>
+         <style>
+            #example-11 .zoomout-transition{
+               transform-origin: 0 0;
+            }
+            #example-11 .zoomout-enter{
+               animation: bounce-in 1s;
+            }
+            #example-11 .zoomout-leave{
+               animation: bounce-out 1s;
+            }
+            @keyframes bounce-in {
+               0% {
+                  transform: scale(0);
+               }
+               50% {
+                  transform: scale(1.5);
+               }
+               100% {
+                  transform: scale(1);
+               }
+            }
+            @keyframes bounce-out {
+               0% {
+                  transform: scale(1);
+               }
+               50% {
+                  transform: scale(1.5);
+               }
+               100% {
+                  transform: scale(0);
+               }
+            }
+         </style>
+         <script>
+            new Vue({
+               el: '#example-11',
+               data: {
+                  ifShow: false
+               },
+               methods: {
+                  changeShow: function(){
+                     this.ifShow = !this.ifShow;
+                  }
+               }
+            });
+         </script>
+      </div>
+      <div id="example-12">
+         <h2 class="example-title">组件-1</h2>
+         <div class="example-div">
+            <my-component></my-component>
+         </div>
+         <script>
+            // 定义组件
+            var MyComponent = Vue.extend({
+               template: '<div>template参数必须是字符串</div><button>我是按钮</button>'
+            });
+            // 注册组件
+            Vue.component('my-component', MyComponent);
+            new Vue({
+               el: '#example-12'
+            });
+         </script>
+      </div>
+      <div id="example-13">
+         <h2 class="example-title">组件-2</h2>
+         <div class="example-div">
+            <my-component></my-component>
+         </div>
+         <template id="example-13-template">
+            <div>template参数可以提到单独的temaplte中</div>
+            <button>我是按钮</button>
+         </template>
+         <script>
+            // 定义组件
+            var MyComponent = Vue.extend({
+               template: '#example-13-template'
+            });
+            // 注册组件
+            Vue.component('my-component', MyComponent);
+            new Vue({
+               el: '#example-13'
+            });
+         </script>
+      </div>
+      <div id="example-14">
+         <h2 class="example-title">父子组件通信</h2>
+         <div class="example-div">
+            <p class="bold">props允许外部环境传递数据给组件</p>
+            <p>{{ fatherMsg }}</p>
+            <my-component :msg="childMsg" :clickhandler="changeText"></my-component>
+         </div>
+         <template id="example-14-template">
+            <div class="dotted-border">
+               <p>{{ msg }}</p>
+               <button @click="clickhandler">我是按钮</button>
+            </div>
+         </template>
+         <style>
+            .dotted-border{
+               border: 1px dotted #ccc;
+            }
+         </style>
+         <script>
+            // 定义组件
+            var MyComponent = Vue.extend({
+               template: '#example-14-template',
+               // 子组件要使用父元素传递的值或者函数，必须在props中声明
+               props: ['msg', 'clickhandler']
+            });
+            new Vue({
+               el: '#example-14',
+               // 注册组件
+               components: {
+                  'my-component': MyComponent
+               },
+               data: {
+                  'fatherMsg': '我是父元素原始值',
+                  'childMsg': '我是子元素'
+               },
+               methods: {
+                  changeText: function(){
+                     this.fatherMsg = '我是父元素修改值'
+                  }
+               }
+            });
+         </script>
+      </div>
+      <div id="example-15">
+         <h2 class="example-title">自定义事件</h2>
+         <div class="example-div">
+            <p class="bold">events允许外部环境触发内部action</p>
+            <button @click="changeChild">广播</button>
+            <my-component></my-component>
+            <my-component></my-component>
+            <my-component></my-component>
+            <my-component></my-component>
+         </div>
+
+         <script>
+            // 定义组件
+            var MyComponent = Vue.extend({
+               template: '<div>{{ msg }}</div>',
+               // 注意，在组件定义中，data必须为一个函数
+               data: function(){
+                  return {
+                     msg: '子组件'
+                  }
+               },
+               events: {
+                  'father-msg': function(){
+                     this.msg = '子组件修改';
+                  }
+               }
+            });
+            new Vue({
+               el: '#example-15',
+               // 注册组件
+               components: {
+                  'my-component': MyComponent
+               },
+               methods: {
+                  changeChild: function(){
+                     // 使用$broadcast向下广播事件
+                     // 也可以使用$dispatch()延父链冒泡
+                     this.$broadcast('father-msg');
+                  }
+               }
+            });
+         </script>
+      </div>
+      <div id="example-16">
+         <h2 class="example-title">slot</h2>
+         <div class="example-div">
+            <p class="bold">slot允许外部环境插入内容到组件的视图结构内</p>
+            <my-component>
+               <p>1111</p>
+               <p>1112</p>
+            </my-component>
+            <my-component>
+               <p>2111</p>
+               <p>2112</p>
+            </my-component>
+         </div>
+         <template id="example-16-template">
+            <div class="dotted-border">
+               <p>这是我的固有段落</p>
+               <slot></slot>
+            </div>
+         </template>
+         <script>
+            // 定义组件
+            var MyComponent = Vue.extend({
+               template: '#example-16-template',
+            });
+            new Vue({
+               el: '#example-16',
+               // 注册组件
+               components: {
+                  'my-component': MyComponent
+               },
+            });
+         </script>
+      </div>
+      <div id="example-17">
+         <h2 class="example-title">自定义指令</h2>
+         <div class="example-div">
+            <p>v-if / v-show / v-model都是指令</p>
+            <button v-button-disabled="disabled" @click="toggleDisabled">{{ disabled ? '取消' : '提交' }}</button>
+         </div>
+         <script>
+            // 定义指令
+            Vue.directive('button-disabled', {
+               bind: function(){ },
+               update: function(newValue, oldValue){ this.el.disabled = !!newValue; },
+               unbind: function(){ }
+            });
+            new Vue({
+               el: '#example-17',
+               data: {
+                  disabled: false
+               },
+               methods: {
+                  toggleDisabled: function(){
+                     this.disabled = !this.disabled;
+                  }
+               }
+            });
+         </script>
+      </div>
+      <div id="example-18">
+         <h2 class="example-title">mixin</h2>
+         <div class="example-div">
+            <p>不同于组件，mixin可以包含任意的组件选项</p>
+            <my-component></my-component>
+         </div>
+         <script>
+            // 定义指令
+            var myMixin = {
+               methods: {
+                  clickHandler: function(){
+                     alert('clicked');
+                  }
+               }
+            };
+            var myMixin2 = {
+               data: function(){
+                  return {
+                     msg: '请按我'
+                  }
+               }
+            };
+            var MyComponent = Vue.extend({
+               template: '<button @click="clickHandler">{{ msg }}</button>',
+               mixins: [myMixin, myMixin2]
+            });
+            new Vue({
+               el: '#example-18',
+               components:{
+                  'my-component': MyComponent
+               }
+            });
+         </script>
+      </div>
+   </div>
+   <div class="context">
+      <h1>Context</h1>
+      <ul>
+         <li><a href="#example-1">数据展示</a></li>
+         <li><a href="#example-2">双向绑定</a></li>
+         <li><a href="#example-3">计算属性</a></li>
+         <li><a href="#example-4">列表渲染</a></li>
+         <li><a href="#example-5">处理交互</a></li>
+         <li><a href="#example-7">生命周期</a></li>
+         <li><a href="#example-8">条件渲染</a></li>
+         <li><a href="#example-9">动态class</a></li>
+         <li><a href="#example-10">过渡</a></li>
+         <li><a href="#example-11">动画</a></li>
+         <li><a href="#example-12">组件</a></li>
+         <li><a href="#example-14">父子组件通信</a></li>
+         <li><a href="#example-15">自定义事件</a></li>
+         <li><a href="#example-16">slot</a></li>
+         <li><a href="#example-17">自定义指令</a></li>
+         <li><a href="#example-18">mixin</a></li>
+      </ul>
+   </div>
+   </body>
+</html>
