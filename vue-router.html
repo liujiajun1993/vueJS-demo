@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <title>vue-router-demo</title>
+   </head>
+   <body>
+      <div id="app"></div>
+
+      <template id="app-template">
+         <div>
+            <p>我是app根实例</p>
+            <a v-link="'/index'">首页</a>
+            <a v-link="'/user/'+ userID">用户</a>
+            <label for="input-user">输入您的用户ID</label><input id="input-user" type="text" v-model="userID">
+            <router-view></router-view>
+         </div>
+      </template>
+
+      <template id="index-template">
+         <p>我是index</p>
+         <a v-link="'/index/about'">关于本页</a>
+         <router-view></router-view>
+      </template>
+
+      <template id="user-template">
+         <p>welcome back, {{$route.params.id}}</p>
+      </template>
+
+      <script src="vue.js"></script>
+      <script src="vue-router.js"></script>
+
+      <script>
+         // 声明路由
+         Vue.use(VueRouter);
+         var router = new VueRouter();
+
+         // 定义组件
+         var appComponent = Vue.extend({
+            template: '#app-template',
+            data: function(){
+               return {
+                  userID: '000'
+               }
+            }
+         });
+         var indexComponent = Vue.extend({
+            template: '#index-template'
+         });
+         var userComponent = Vue.extend({
+            template: '#user-template'
+         });
+         var aboutComponent = Vue.extend({
+            template: '<p>我只是一个示例页面</p>'
+         });
+
+         // 定义路由规则
+         router.map({
+            '/index': {
+               component: indexComponent,
+               subRoutes: {
+                  '/about': {
+                     component: aboutComponent
+                  }
+               }
+            },
+            '/user/:id': {
+               component: userComponent
+            }
+         });
+
+         //创建实例
+         router.start(appComponent, '#app');
+      </script>
+   </body>
+</html>
