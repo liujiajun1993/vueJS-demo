@@ -488,17 +488,18 @@
          <div class="example-div">
             <p class="bold">slot允许外部环境插入内容到组件的视图结构内</p>
             <my-component>
-               <p>1111</p>
-               <p>1112</p>
+               <p>R u confirmed?</p>
+               <button>cancel</button>
+               <button>confirm</button>
             </my-component>
             <my-component>
-               <p>2111</p>
-               <p>2112</p>
+               <p>an error occurred!</p>
+               <button>confirm</button>
             </my-component>
          </div>
          <template id="example-16-template">
-            <div class="dotted-border">
-               <p>这是我的固有段落</p>
+            <div class="dotted-border" style="text-align: center;">
+               <p>i am a pop-layer!</p>
                <slot></slot>
             </div>
          </template>
@@ -576,26 +577,37 @@
             });
          </script>
       </div>
+      <div id="example-19">
+         <h2 class="example-title">插件</h2>
+         <div class="example-div">
+            <p>通过vue.use(pluginName)来使用插件</p>
+            <ul>
+               <li>vue-router, 单页应用时的路由</li>
+               <li>vue-resource，用于请求XMLHttpRequest 或者 JSONP</li>
+            </ul>
+         </div>
+      </div>
    </div>
    <div class="context">
       <h1>Context</h1>
       <ul>
-         <li><a href="#example-1">数据展示</a></li>
-         <li><a href="#example-2">双向绑定</a></li>
-         <li><a href="#example-3">计算属性</a></li>
-         <li><a href="#example-4">列表渲染</a></li>
-         <li><a href="#example-5">处理交互</a></li>
-         <li><a href="#example-7">生命周期</a></li>
-         <li><a href="#example-8">条件渲染</a></li>
-         <li><a href="#example-9">动态class</a></li>
-         <li><a href="#example-10">过渡</a></li>
-         <li><a href="#example-11">动画</a></li>
-         <li><a href="#example-12">组件</a></li>
-         <li><a href="#example-14">父子组件通信</a></li>
-         <li><a href="#example-15">自定义事件</a></li>
-         <li><a href="#example-16">slot</a></li>
-         <li><a href="#example-17">自定义指令</a></li>
-         <li><a href="#example-18">mixin</a></li>
+         <li><a href="#example-1">Data Binding</a></li>
+         <li><a href="#example-2">Two-way Binding</a></li>
+         <li><a href="#example-3">Computed Properties</a></li>
+         <li><a href="#example-4">List Rendering</a></li>
+         <li><a href="#example-5">Event Handling</a></li>
+         <li><a href="#example-7">Instance LifeCycle</a></li>
+         <li><a href="#example-8">Conditional Rendering</a></li>
+         <li><a href="#example-9">Class Binding</a></li>
+         <li><a href="#example-10">Transition</a></li>
+         <li><a href="#example-11">Animation</a></li>
+         <li><a href="#example-12">Component</a></li>
+         <li><a href="#example-14">Props</a></li>
+         <li><a href="#example-15">Events</a></li>
+         <li><a href="#example-16">Slot</a></li>
+         <li><a href="#example-17">Directive</a></li>
+         <li><a href="#example-18">Mixin</a></li>
+         <li><a href="#example-19">Plugin</a></li>
       </ul>
    </div>
    </body>
