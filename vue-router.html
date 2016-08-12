@@ -20,6 +20,7 @@
       <template id="index-template">
          <p>我是index</p>
          <a v-link="'/index/about'">关于本页</a>
+         <a v-link="'/index/more'">了解更多</a>
          <router-view></router-view>
       </template>
 
@@ -53,6 +54,9 @@
          var aboutComponent = Vue.extend({
             template: '<p>我只是一个示例页面</p>'
          });
+         var moreComponent = Vue.extend({
+            template: '<p>想了解更多？访问http://router.vuejs.org吧</p>'
+         });
 
          // 定义路由规则
          router.map({
@@ -61,6 +65,9 @@
                subRoutes: {
                   '/about': {
                      component: aboutComponent
+                  },
+                  '/more': {
+                     component: moreComponent
                   }
                }
             },
